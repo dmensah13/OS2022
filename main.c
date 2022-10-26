@@ -1,10 +1,16 @@
 #include <stdio.h>
-#include "list.c"
+#include "list.h"
 
 int main() 
 {
   printf("Write your Tests for your linked list implementation\n");
   list_t *mylist = list_alloc();
+  list_add_at_index(mylist, 88, -3);
+  list_print(mylist);
+  list_add_at_index(mylist, 88, 2);
+  list_print(mylist);
+
+
   //Adding to the Front of the List
   list_add_to_front(mylist, 3);
   list_add_to_front(mylist, 9);
@@ -12,9 +18,32 @@ int main()
   list_add_to_front(mylist, 87);
   list_print(mylist);
 
+  int value10;
+  value10 = list_get_elem_at(mylist, 0);
+  printf("The value at index 0 is %d", value10);
+  printf("\n");
+
+  value10 = list_get_elem_at(mylist, 1);
+  printf("The value at index 1 is %d", value10);
+  printf("\n");
+
+  value10 = list_get_elem_at(mylist, 2);
+  printf("The value at index 2 is %d", value10);
+  printf("\n");
+
+  value10 = list_get_elem_at(mylist, -1);
+  printf("The value at index -1 is %d", value10);
+  printf("\n");
+
+  value10 = list_get_elem_at(mylist, 5);
+  printf("The value at index 5 is %d", value10);
+  printf("\n");
+
   //Adding at an Index
   list_add_at_index(mylist, 24, 1);
+  list_print(mylist);
   list_add_at_index(mylist, 71, 3);
+  list_print(mylist);
   list_add_at_index(mylist, 0, 0);
   list_print(mylist);
 

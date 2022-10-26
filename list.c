@@ -46,14 +46,19 @@ int list_length(list_t *l){
 }
 
 void list_add_to_back(list_t *l, elem value){
-  node_t* cur = l->head;
-  while(cur->next != NULL){
-    cur = cur->next;
+  if(l->head == NULL){
+    list_add_to_front(l, value);
   }
-  node_t* new_node = malloc(sizeof(node_t));
-  new_node->value = value;
-  new_node->next = NULL;
-  cur->next = new_node;
+  else{
+    node_t* cur = l->head;
+    while(cur->next != NULL){
+      cur = cur->next;
+    }
+    node_t* new_node = malloc(sizeof(node_t));
+    new_node->value = value;
+    new_node->next = NULL;
+    cur->next = new_node;
+  }
 }
 
 void list_add_to_front(list_t *l, elem value){
@@ -65,13 +70,12 @@ void list_add_to_front(list_t *l, elem value){
 
 void list_add_at_index(list_t *l, elem value, int index){
   int length = list_length(l);
-  if(index == 0){
+  if(index == 0 || l->head == NULL || length == 0){
     list_add_to_front(l, value);
   }
-  else if(index == length-1){
+  else if(index >= length-1 ||index < 0){
     list_add_to_back(l, value);
   }
-
   else if(index < length){
     node_t* cur = l->head->next;
     node_t* prev = l->head;
@@ -102,6 +106,9 @@ elem list_remove_from_back(list_t *l){
     prev->next = NULL;
     return value;
   }
+  else{
+    return -1;
+  }
 }
 
 elem list_remove_from_front(list_t *l){
@@ -113,6 +120,9 @@ elem list_remove_from_front(list_t *l){
     node_free(prev);
     return value;
   }
+  else{
+    return -1;
+  }
 }
 
 elem list_remove_at_index(list_t *l, int index){
@@ -120,8 +130,11 @@ elem list_remove_at_index(list_t *l, int index){
   if(index == 0){
     list_remove_from_front(l);
   }
-  else if(index == length-1){
+  else if(index >= length-1){
     list_remove_from_back(l);
+  }
+  else if(length == 0 || index < 0){
+    return -1;
   }
   else if(index < length){
     node_t* cur = l->head->next;
@@ -153,7 +166,7 @@ bool list_is_in(list_t *l, elem value){
 elem list_get_elem_at(list_t *l, int index){
   node_t* cur = l->head;
   int length = list_length(l);
-  if(index < length){
+  if(index < length && index >= 0){
     int count = 0;
     while(true){
       if(count == index){
